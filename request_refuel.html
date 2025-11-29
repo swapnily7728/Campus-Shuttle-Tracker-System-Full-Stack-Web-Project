@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning">
+                    <h3 class="mb-0">Request for Bus Refuel</h3>
+                </div>
+                <form method="POST" action="{{ url_for('request_refuel') }}" enctype="multipart/form-data">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Bus Driver Name</label>
+                                <input type="text" class="form-control" value="{{ g.user.full_name }}" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Bus ID / Number</label>
+                                <input type="text" class="form-control" value="{{ bus.bus_number }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fuel_amount" class="form-label">Fuel Amount (in Liters)</label>
+                                <input type="number" step="0.01" class="form-control" id="fuel_amount" name="fuel_amount" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fuel_cost" class="form-label">Fuel Cost (in INR)</label>
+                                <input type="number" step="0.01" class="form-control" id="fuel_cost" name="fuel_cost" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-6 mb-3">
+                                <label for="refuel_date" class="form-label">Date of Refueling</label>
+                                <input type="date" class="form-control" id="refuel_date" name="refuel_date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="refuel_time" class="form-label">Time of Refueling</label>
+                                <input type="time" class="form-control" id="refuel_time" name="refuel_time" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="odometer_reading" class="form-label">Kilometer Reading at Refueling</label>
+                            <input type="number" class="form-control" id="odometer_reading" name="odometer_reading" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="receipt" class="form-label">Upload Fuel Receipt with KM Reading</label>
+                            <input type="file" class="form-control" id="receipt" name="receipt" accept="image/*,.pdf">
+                        </div>
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Remarks (if any)</label>
+                            <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success w-100">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

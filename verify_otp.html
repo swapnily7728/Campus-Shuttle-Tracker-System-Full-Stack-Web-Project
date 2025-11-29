@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form-container">
+    <h2 class="text-center mb-4">Verify OTP</h2>
+    <p class="text-center text-muted">An OTP has been sent to your registered phone number.</p>
+    <form method="POST" action="{{ url_for('verify_otp_route') }}">
+        <div class="mb-3">
+            <label for="otp" class="form-label">Enter OTP</label>
+            <input type="text" class="form-control" id="otp" name="otp" required autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Verify & Login</button>
+    </form>
+     <p class="text-center mt-3">
+        Didn't receive the OTP? <a href="{{ url_for('login') }}">Try again</a>
+    </p>
+</div>
+{% endblock %}

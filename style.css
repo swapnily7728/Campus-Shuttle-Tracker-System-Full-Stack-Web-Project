@@ -1,0 +1,97 @@
+/* static/css/style.css */
+/* Custom styles for the Campus Shuttle Tracker System */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    /* --- NEW: Background Image --- */
+    background-image: url('https://img.freepik.com/free-photo/autumn-leaves-composition_23-2151554949.jpg?ga=GA1.1.1500272266.1749806670&semt=ais_hybrid&w=740');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Creates a nice parallax effect */
+    
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Hero Section on Home Page --- */
+/* This section already has its own background, so it remains unchanged */
+.hero-section {
+    position: relative;
+    padding: 10rem 1rem;
+    background: url("https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop") no-repeat center center;
+    background-size: cover;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* --- Form & Content Styling --- */
+/* UPDATED: Added a semi-transparent background for readability */
+.form-container, 
+.dashboard-container, 
+.card {
+    background-color: rgba(59, 255, 209, 0.95); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari */
+    backdrop-filter: blur(10px);
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+}
+
+.form-container .form-control {
+    padding: 0.75rem 1rem;
+}
+
+.form-container .btn {
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+/* --- Dashboard Styling --- */
+.dashboard-container {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card {
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important; /* Use !important to override generic card style */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.feature-card .card-title {
+    color: #333;
+    font-weight: 500;
+}
+
+/* --- General --- */
+.flex-grow-1 {
+    flex-grow: 1;
+}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container text-center">
+    <div class="card mx-auto shadow" style="max-width: 500px;">
+        <div class="card-body p-4">
+            <h1 class="text-success">Payment Successful!</h1>
+            <p class="lead">Your payment has been processed.</p>
+            <hr>
+            <p><strong>Transaction ID:</strong><br><span class="font-monospace">{{ payment.transaction_id }}</span></p>
+            <p><strong>Amount Paid:</strong><br>₹{{ "%.2f"|format(payment.amount) }}</p>
+            <p><strong>Date:</strong><br>{{ payment.payment_date.strftime('%d %b %Y, %I:%M %p') }}</p>
+            <a href="{{ url_for('pass_generation') }}" class="btn btn-primary mt-3">Generate Your Pass Now</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

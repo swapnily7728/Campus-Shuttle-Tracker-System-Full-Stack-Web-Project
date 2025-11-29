@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4">Driver Requests</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">FASTag Recharge Requests</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Driver</th>
+                            <th>Bus</th>
+                            <th>Current Balance</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in fastag_requests %}
+                        <tr>
+                            <td>{{ req.request_date.strftime('%d %b %Y, %I:%M %p') }}</td>
+                            <td>{{ req.driver.full_name }}</td>
+                            <td>{{ req.bus.bus_number }}</td>
+                            <td>₹{{ "%.2f"|format(req.current_balance) }}</td>
+                            <td>{{ req.reason }}</td>
+                            <td>
+                                <span class="badge bg-{% if req.status == 'Pending' %}warning text-dark{% elif req.status == 'Approved' %}success{% else %}danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if req.status == 'Pending' %}
+                                <form action="{{ url_for('handle_request', req_type='fastag', req_id=req.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" name="action" value="Approved" class="btn btn-sm btn-success">Approve</button>
+                                </form>
+                                <form action="{{ url_for('handle_request', req_type='fastag', req_id=req.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" name="action" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
+                                </form>
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center">No FASTag recharge requests found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="mb-0">Bus Refuel Requests</h4>
+        </div>
+        <div class="card-body">
+             <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Request Date</th>
+                            <th>Driver / Bus</th>
+                            <th>Refuel Details</th>
+                            <th>Cost</th>
+                            <th>Odometer</th>
+                            <th>Receipt</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in refuel_requests %}
+                        <tr>
+                            <td>{{ req.request_date.strftime('%d %b %Y, %I:%M %p') }}</td>
+                            <td>{{ req.driver.full_name }}<br><span class="text-muted">{{ req.bus.bus_number }}</span></td>
+                            <td>{{ req.refuel_date.strftime('%d %b %Y') }} at {{ req.refuel_time.strftime('%I:%M %p') }}</td>
+                            <td>₹{{ "%.2f"|format(req.fuel_cost) }}<br><small class="text-muted">({{ req.fuel_amount }} L)</small></td>
+                            <td>{{ req.odometer_reading }} km</td>
+                            <td>
+                                {% if req.receipt_filename %}
+                                <a href="{{ url_for('static', filename='uploads/' + req.receipt_filename) }}" target="_blank">View</a>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge bg-{% if req.status == 'Pending' %}warning text-dark{% elif req.status == 'Approved' %}success{% else %}danger{% endif %}">
+                                    {{ req.status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if req.status == 'Pending' %}
+                                <form action="{{ url_for('handle_request', req_type='refuel', req_id=req.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" name="action" value="Approved" class="btn btn-sm btn-success">Approve</button>
+                                </form>
+                                <form action="{{ url_for('handle_request', req_type='refuel', req_id=req.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" name="action" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
+                                </form>
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                        </tr>
+                         {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center">No refuel requests found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2 class="mb-4 text-center">Live Bus Location Map</h2>
+<div class="card shadow">
+    <div class="card-body p-0">
+        <div id="map" style="height: 600px; border-radius: 0.375rem;"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the map, centered on Pune
+    var map = L.map('map').setView([18.5204, 73.8567], 13);
+
+    // Add the tile layer (map background)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Create a custom bus icon
+    var busIcon = L.icon({
+        iconUrl: "{{ url_for('static', filename='img/bus-icon.png') }}",
+        iconSize: [38, 38], // size of the icon
+        iconAnchor: [19, 38], // point of the icon which will correspond to marker's location
+        popupAnchor: [0, -40] // point from which the popup should open relative to the iconAnchor
+    });
+
+    let busMarkers = {}; // To store marker objects
+
+    function fetchBusLocations() {
+        fetch('/api/bus-locations')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(bus => {
+                    const popupContent = `
+                        <b>Bus:</b> ${bus.bus_number}<br>
+                        <b>Driver:</b> ${bus.driver}<br>
+                        <b>Fuel:</b> ${bus.fuel}%<br>
+                        <b>Last Updated:</b> ${bus.updated}
+                    `;
+
+                    if (busMarkers[bus.id]) {
+                        // Update existing marker
+                        busMarkers[bus.id].setLatLng([bus.lat, bus.lng]);
+                        busMarkers[bus.id].getPopup().setContent(popupContent);
+                    } else {
+                        // Create new marker
+                        busMarkers[bus.id] = L.marker([bus.lat, bus.lng], { icon: busIcon })
+                            .addTo(map)
+                            .bindPopup(popupContent);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching bus locations:', error));
+    }
+
+    // Fetch locations immediately and then every 5 seconds
+    fetchBusLocations();
+    setInterval(fetchBusLocations, 5000);
+});
+</script>
+{% endblock %}

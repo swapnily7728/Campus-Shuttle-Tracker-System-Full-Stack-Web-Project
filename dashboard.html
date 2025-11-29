@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <h2 class="mb-4">Dashboard</h2>
+    <p class="lead">Welcome, {{ user.full_name }}! You are logged in as a <strong>{{ user.role }}</strong>.</p>
+    <hr>
+    
+    <div class="row g-4">
+        {# ADMIN-specific cards are now in admin_dashboard.html #}
+        {# This dashboard is now primarily for Users and Drivers #}
+
+        {% if user.role == 'Driver' %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="bi bi-credit-card-2-front-fill me-2"></i>Request FASTag Recharge</h5>
+                    <p class="card-text">Submit a request to recharge the bus FASTag.</p>
+                    <a href="{{ url_for('request_fastag_recharge') }}" class="btn btn-primary">Make Request</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="bi bi-fuel-pump-fill me-2"></i>Request Bus Refuel</h5>
+                    <p class="card-text">Submit a request after refueling the bus.</p>
+                    <a href="{{ url_for('request_refuel') }}" class="btn btn-warning">Make Request</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Bus Location Tracking</h5>
+                    <p class="card-text">View the real-time location of buses.</p>
+                    <a href="{{ url_for('location_tracking') }}" class="btn btn-secondary">View Map</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if user.role == 'User' %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Online Fee Payment</h5>
+                    <p class="card-text">Pay your shuttle fees conveniently online.</p>
+                    <a href="{{ url_for('fee_payment') }}" class="btn btn-success">Pay Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Generate/View Pass</h5>
+                    <p class="card-text">Generate your digital bus pass instantly.</p>
+                    <a href="{{ url_for('pass_generation') }}" class="btn btn-info text-dark">Get Pass</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 feature-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Attendance</h5>
+                    <p class="card-text">Check in and view your attendance records.</p>
+                    <a href="{{ url_for('attendance') }}" class="btn btn-secondary">Manage Attendance</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

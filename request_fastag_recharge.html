@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Request FASTag Recharge</h3>
+                </div>
+                <form method="POST" action="{{ url_for('request_fastag_recharge') }}">
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label">Driver's Name</label>
+                            <input type="text" class="form-control" value="{{ g.user.full_name }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bus Number</label>
+                            <input type="text" class="form-control" value="{{ bus.bus_number }}" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="current_balance" class="form-label">Current FASTag Balance (INR)</label>
+                            <input type="number" step="0.01" class="form-control" id="current_balance" name="current_balance" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason for Recharge Request</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success w-100">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

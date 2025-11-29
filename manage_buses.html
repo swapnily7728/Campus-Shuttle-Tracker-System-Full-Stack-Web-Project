@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="mb-0">Manage Buses</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <form action="{{ url_for('add_bus') }}" method="POST" class="d-inline-flex">
+                <input type="text" name="bus_number" class="form-control me-2" placeholder="New Bus Number (e.g., MH-12-XX-1234)" required>
+                <button type="submit" class="btn btn-success"><i class="bi bi-plus-circle me-1"></i> Add Bus</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Bus Number</th>
+                        <th>Driver</th>
+                        <th>Assign Driver</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bus in buses %}
+                    <tr>
+                        <td><strong>{{ bus.bus_number }}</strong></td>
+                        <td>
+                            {% if bus.driver %}
+                                <span class="badge bg-primary">{{ bus.driver.full_name }}</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Not Assigned</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not bus.driver %}
+                            <form action="{{ url_for('assign_driver') }}" method="POST" class="d-flex">
+                                <input type="hidden" name="bus_id" value="{{ bus.id }}">
+                                <select name="driver_id" class="form-select form-select-sm me-2">
+                                    {% for driver in unassigned_drivers %}
+                                    <option value="{{ driver.id }}">{{ driver.full_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Assign</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

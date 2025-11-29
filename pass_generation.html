@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">Your Digital Bus Pass</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center shadow-lg" id="bus-pass">
+                <div class="card-header bg-dark text-white">
+                    <h4>Campus Shuttle Digital Pass</h4>
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title">{{ g.user.full_name }}</h5>
+                    <p class="card-text text-muted">Role: {{ g.user.role }}</p>
+                    <hr>
+                    <p class="mb-1"><strong>Pass ID:</strong></p>
+                    <p class="font-monospace text-primary">{{ bus_pass.pass_id }}</p>
+                    <p class="mb-1"><strong>Issued On:</strong></p>
+                    <p>{{ bus_pass.issue_date.strftime('%d %b %Y') }}</p>
+                    <p class="mb-1"><strong>Valid Until:</strong></p>
+                    <p class="fw-bold text-danger">{{ bus_pass.expiry_date.strftime('%d %b %Y') }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    This pass is non-transferable.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

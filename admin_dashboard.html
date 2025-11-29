@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <div class="row g-4 mb-4">
+        </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Bus Fuel Levels</h5>
+                    <div style="height: 300px;">
+                        <canvas id="fuelChart" 
+                                data-labels='{{ fuel_labels | tojson }}' 
+                                data-data='{{ fuel_data | tojson }}'></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Attendance (Last 7 Days)</h5>
+                    <div style="height: 300px;">
+                        <canvas id="attendanceChart"
+                                data-labels='{{ attendance_labels | tojson }}' 
+                                data-data='{{ attendance_counts | tojson }}'></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+         <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <a href="{{ url_for('manage_buses') }}" class="btn btn-primary"><i class="bi bi-bus-front-fill me-1"></i> Manage Buses</a>
+                    <a href="{{ url_for('location_tracking') }}" class="btn btn-secondary"><i class="bi bi-geo-alt-fill me-1"></i> Live Map</a>
+                    <a href="{{ url_for('view_requests') }}" class="btn btn-info position-relative">
+                        <i class="bi bi-card-list me-1"></i> View Driver Requests
+                        {% if pending_requests > 0 %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ pending_requests }}
+                            <span class="visually-hidden">pending requests</span>
+                        </span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}
